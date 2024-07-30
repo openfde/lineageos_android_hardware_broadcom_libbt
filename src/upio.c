@@ -292,6 +292,11 @@ int upio_set_bluetooth_power(int on)
     int fd = -1;
     int ret = -1;
     char buffer = '0';
+    char prop_value[PROPERTY_VALUE_MAX];
+    property_get("fde.fake_bt", prop_value, "0");
+    if (!strcmp(prop_value, "1")) {
+        return 0;
+    }
 
     switch(on)
     {
@@ -363,6 +368,11 @@ int upio_set_bluetooth_power(int on)
 void upio_set(uint8_t pio, uint8_t action, uint8_t polarity)
 {
     int rc;
+    char prop_value[PROPERTY_VALUE_MAX];
+    property_get("fde.fake_bt", prop_value, "0");
+    if (!strcmp(prop_value, "1")) {
+        return;
+    }
 #if (BT_WAKE_VIA_PROC == TRUE)
     int fd = -1;
     char buffer;

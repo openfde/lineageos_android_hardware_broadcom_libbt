@@ -26,6 +26,7 @@
 
 #define LOG_TAG "bt_vendor"
 
+#include <cutils/properties.h>
 #include <utils/Log.h>
 #include <string.h>
 #include "bt_vendor_brcm.h"
@@ -253,7 +254,11 @@ static int op(bt_vendor_opcode_t opcode, void *param)
             break;
 #endif
     }
-
+    char prop_value[PROPERTY_VALUE_MAX];
+    property_get("fde.fake_bt", prop_value, "0");
+    if (!strcmp(prop_value, "1")) {
+        return 0;
+    }
     return retval;
 }
 

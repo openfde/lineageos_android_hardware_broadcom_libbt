@@ -1312,7 +1312,11 @@ uint8_t hw_lpm_enable(uint8_t turn_on)
     HC_BT_HDR  *p_buf = NULL;
     uint8_t     *p;
     uint8_t     ret = FALSE;
-
+    char prop_value[PROPERTY_VALUE_MAX];
+    property_get("fde.fake_bt", prop_value, "0");
+    if (!strcmp(prop_value, "1")) {
+        return TRUE;
+    }
     if (bt_vendor_cbacks)
         p_buf = (HC_BT_HDR *) bt_vendor_cbacks->alloc(BT_HC_HDR_SIZE + \
                                                        HCI_CMD_PREAMBLE_SIZE + \
